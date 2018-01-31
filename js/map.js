@@ -4,12 +4,14 @@
 //	This page controls the main map element of the page
 //----------------------
 
+//--------------
 // Access token for mapbox.js api
+//--------------
 mapboxgl.accessToken = 'pk.eyJ1IjoibmRjYXJ0b2dyYXBoeSIsImEiOiJjamNqZ2pzd3A0MHE5MnFwNWI3dzg4bnRkIn0.Ee7m_Pgw3mn5ZS9JJT6rRQ';
 
-
-
-
+//--------------
+// Sets up the the map and it's styles
+//--------------
 var map = new mapboxgl.Map({
 	container: 'map',
 	center: [103,32.7845177], // uses [lon,lat]/[x,y]
@@ -21,17 +23,24 @@ var map = new mapboxgl.Map({
 	//style: 'mapbox://styles/mapbox/satellite-streets-v9'
 });
 
-//var BoxZoomHandler = new BoxZoomHandler(map: Map)
-//map.boxZoom.enable();
+//--------------
+// Adds controls like zoom and north arrpw
+//--------------
 map.addControl(new mapboxgl.NavigationControl());
 
+//--------------
+// Adds Layers:
+//--------------
 map.on("load", function() {
+
+	// Add the source data to the map
     map.addSource("route-2000", {
         type: "geojson",
         data: "https://raw.githubusercontent.com/ndcartography/HSUTibet/master/data/2000.geojson"
 
     });
     
+    // Add the route-2000 to the map with styles
     map.addLayer({
         "id": "route-2000",
         "type": "line",
@@ -45,6 +54,23 @@ map.on("load", function() {
             "line-join": "round",
             "line-cap": "round"
         },
-        //"filter": ["==", "$type", "Polygon"]
     });
 });
+
+//--------------
+// Switch layers from nav tabs
+//--------------
+var layerList = document.getElementById('nav-tab');
+var inputs = layerList.getElementsByTagName('a');
+
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    map.addSource('route-' + layerId, {
+        type: "geojson",
+        data: "https://raw.githubusercontent.com/ndcartography/HSUTibet/master/data/" + layerId + ".geojson"
+    });
+}
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
