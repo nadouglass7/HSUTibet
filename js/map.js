@@ -1,4 +1,14 @@
+//----------------------
+//Main map .js file:
+//
+//	This page controls the main map element of the page
+//----------------------
+
+// Access token for mapbox.js api
 mapboxgl.accessToken = 'pk.eyJ1IjoibmRjYXJ0b2dyYXBoeSIsImEiOiJjamNqZ2pzd3A0MHE5MnFwNWI3dzg4bnRkIn0.Ee7m_Pgw3mn5ZS9JJT6rRQ';
+
+
+
 
 var map = new mapboxgl.Map({
 	container: 'map',
@@ -10,15 +20,10 @@ var map = new mapboxgl.Map({
 	style: 'mapbox://styles/mapbox/outdoors-v9'
 	//style: 'mapbox://styles/mapbox/satellite-streets-v9'
 });
-/*
-map.on('load', function () {
 
-	map.addSource('route-2002', {
-		type: 'geojson',
-		data: '../data/2002.js'
-	});
-});
-*/
+//var BoxZoomHandler = new BoxZoomHandler(map: Map)
+//map.boxZoom.enable();
+map.addControl(new mapboxgl.NavigationControl());
 
 map.on("load", function() {
     map.addSource("route-2000", {
