@@ -69,6 +69,20 @@ function switchLayer(layer) {
         type: "geojson",
         data: "https://raw.githubusercontent.com/ndcartography/HSUTibet/master/data/" + layerId + ".geojson"
     });
+    map.addLayer({
+        "id": "route-" + layerId,
+        "type": "line",
+        "source": "route-" + layerId,
+        "paint": {
+            "line-color": "#991bc6",
+            "line-opacity": 0.6,
+            "line-width": 2
+        },
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+    });
 }
 
 for (var i = 0; i < inputs.length; i++) {
