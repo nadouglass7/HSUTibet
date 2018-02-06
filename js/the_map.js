@@ -32,7 +32,6 @@ map.addControl(new mapboxgl.NavigationControl());
 // Switch layers from nav tabs
 //--------------
 
-
 function switchLayer(layer) {
     var layerId = layer.target.id;
     
@@ -75,14 +74,11 @@ for (var i = 0; i < inputs.length; i++) {
 map.on("load", function() {
 
 	// Add the source data to the map
-	for (var i in layergroup) {
-		var layerId = layergroup[i];
-        map.addSource(layerId, {
-            type: "geojson",
-            data: "https://raw.githubusercontent.com/ndcartography/HSUTibet/master/data/" + layerId + ".geojson"
+    map.addSource("2000", {
+        type: "geojson",
+        data: "https://raw.githubusercontent.com/ndcartography/HSUTibet/master/data/2000.geojson"
     
-        });
-    }
+    });
     // Add the route-2000 to the map with styles
     map.addLayer({
         "id": "2000",
@@ -98,6 +94,21 @@ map.on("load", function() {
             "line-cap": "round"
         },
     });
+    
+	for (var i in layergroup) {
+		var layerId = layergroup[i];
+		switch (layerId) {
+			case layergroup[0]:
+			case "2003":
+			case "2011":
+				continue;
+		}
+        map.addSource(layerId, {
+            type: "geojson",
+            data: "https://raw.githubusercontent.com/ndcartography/HSUTibet/master/data/" + layerId + ".geojson"
+    
+        });
+    }
 });
 
 
