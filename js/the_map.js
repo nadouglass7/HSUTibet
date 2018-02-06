@@ -29,22 +29,65 @@ var map = new mapboxgl.Map({
 map.addControl(new mapboxgl.NavigationControl());
 
 //--------------
+// Switch layers from nav tabs
+//--------------
+
+
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    
+    // add (clear all layers here)
+    for (var i in layergroup) {
+    	if(map.getLayer(layergroup[i])) {
+    		map.removeLayer(layergroup[i]);
+    	}
+	}
+    
+    map.addLayer({
+        "id": layerId,
+        "type": "line",
+        "source": layerId,
+        "paint": {
+            "line-color": "#991bc6",
+            "line-opacity": 0.6,
+            "line-width": 2
+        },
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+    });
+}
+
+//--------------
 // Adds Layers:
 //--------------
+
+var layerList = document.getElementById('nav-tab');
+var inputs = layerList.getElementsByTagName('a');
+var layergroup = [];
+
+for (var i = 0; i < inputs.length; i++) {
+	layergroup.push(inputs[i].id);
+    inputs[i].onclick = switchLayer;
+}
+
 map.on("load", function() {
 
 	// Add the source data to the map
-    map.addSource("route-2000", {
-        type: "geojson",
-        data: "https://raw.githubusercontent.com/ndcartography/HSUTibet/master/data/2000.geojson"
-
-    });
+	for (var i in layergroup) {
+		var layerId = layergroup[i];
+        map.addSource(layerId, {
+            type: "geojson",
+            data: "https://raw.githubusercontent.com/ndcartography/HSUTibet/master/data/" + layerId + ".geojson"
     
+        });
+    }
     // Add the route-2000 to the map with styles
     map.addLayer({
-        "id": "route-2000",
+        "id": "2000",
         "type": "line",
-        "source": "route-2000",
+        "source": "2000",
         "paint": {
             "line-color": "#991bc6",
             "line-opacity": 0.6,
@@ -57,34 +100,4 @@ map.on("load", function() {
     });
 });
 
-//--------------
-// Switch layers from nav tabs
-//--------------
-var layerList = document.getElementById('nav-tab');
-var inputs = layerList.getElementsByTagName('a');
 
-function switchLayer(layer) {
-    var layerId = layer.target.id;
-    map.addSource('route-' + layerId, {
-        type: "geojson",
-        data: "https://raw.githubusercontent.com/ndcartography/HSUTibet/master/data/" + layerId + ".geojson"
-    });
-    map.addLayer({
-        "id": "route-" + layerId,
-        "type": "line",
-        "source": "route-" + layerId,
-        "paint": {
-            "line-color": "#991bc6",
-            "line-opacity": 0.6,
-            "line-width": 2
-        },
-        "layout": {
-            "line-join": "round",
-            "line-cap": "round"
-        },
-    });
-}
-
-for (var i = 0; i < inputs.length; i++) {
-    inputs[i].onclick = switchLayer;
-}
