@@ -48,7 +48,6 @@ function switchLayer(layer) {
         "source": layerId,
         "paint": {
             "line-color": "#991bc6",
-            "line-opacity": 0.6,
             "line-width": 2
         },
         "layout": {
@@ -86,7 +85,6 @@ map.on("load", function() {
         "source": "2000",
         "paint": {
             "line-color": "#991bc6",
-            "line-opacity": 0.6,
             "line-width": 2
         },
         "layout": {

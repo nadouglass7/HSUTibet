@@ -1,0 +1,11 @@
+Checklist:
+
+[] - Make toggle buttons map elements instead
+[] - Maximize map to fit entire frame
+[] - Add elevation profile
+[] - Add point data
+[] - Add box with image to point data
+[] - Loading bar?
+[] - Create start and end for routes
+[] - Fade in routes from start to finish
+[] - Generalize routes more at early zooms
